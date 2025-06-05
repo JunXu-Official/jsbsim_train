@@ -1,31 +1,42 @@
+"""
+    任务目的： 训练飞机达到期望高度并在期望高度做稳定盘旋
+"""
+
 import numpy as np
 from gymnasium import spaces
 from .task_base import BaseTask
 from ..core.catalog import Catalog as c
-from ..reward_functions import AltitudeReward, HeadingReward
-from ..termination_conditions import ExtremeState, LowAltitude, Overload, Timeout, UnreachHeading
+from ..reward_functions import AltitudeRewardTrain
+from ..reward_functions import AltitudePenaltyReward
+from ..termination_conditions import ExtremeState, LowAltitude, Overload, Timeout, UnreachAltitude
 
 
 """
-    UnreachHeading: 判断飞机是否在规定时间内达到目标航向
+奖励分量：
+    1. 高度误差奖励 --- AltitudeRewardTrain
+    2. 保持高度，稳定盘旋奖励 --- 
+    3. 高度惩罚奖励 --- AltitudePenaltyReward
+    
+done条件判断：
+    UnreachAltitude: 判断飞机是否在规定时间内达到期望高度
     ExtremeState: 判断仿真运行过程中是否出现极端值
     Overload： 判断飞机的加速度是否超出限制
     LowAltitude： 判断飞机的高度是否在合理范围
     Timeout： 判断回合步长
 """
-class HeadingTask(BaseTask):
+class AltitudeTask(BaseTask):
     '''
-    Control target heading with discrete action space
+    Control target altitude with discrete action space
     '''
     def __init__(self, config):
         super().__init__(config)
 
         self.reward_functions = [
-            HeadingReward(self.config),
-            AltitudeReward(self.config),
+            AltitudeRewardTrain(self.config),
+            AltitudePenaltyReward(self.config)
         ]
         self.termination_conditions = [
-            UnreachHeading(self.config),
+            UnreachAltitude(self.config),
             ExtremeState(self.config),
             Overload(self.config),
             LowAltitude(self.config),

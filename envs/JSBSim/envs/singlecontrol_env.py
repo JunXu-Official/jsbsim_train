@@ -1,7 +1,7 @@
 from envs.JSBSim.human_task.HumanFreeFlyTask import HumanFreeFlyTask
 from .env_base import BaseEnv
 from ..tasks.heading_task import HeadingTask
-
+from ..tasks.altitude_task import AltitudeTask
 
 class SingleControlEnv(BaseEnv):
     """
@@ -15,8 +15,10 @@ class SingleControlEnv(BaseEnv):
 
     def load_task(self):
         taskname = getattr(self.config, 'task', None)
+        #modify-2025-06-05
         if taskname == 'heading':
-            self.task = HeadingTask(self.config)
+            # self.task = HeadingTask(self.config)
+            self.task = AltitudeTask(self.config)
         elif taskname == "HumanFreeFly":
             self.task = HumanFreeFlyTask(self.config)
         else:
@@ -26,6 +28,7 @@ class SingleControlEnv(BaseEnv):
         self.current_step = 0
         self.reset_simulators()
         self.heading_turn_counts = 0
+        self.altitude_turn_counts = 0
         self.task.reset(self)
         obs = self.get_obs()
         return self._pack(obs)

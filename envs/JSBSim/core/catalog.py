@@ -523,6 +523,7 @@ class ExtraCatalog(Property, Enum):
         "tc/target-longitude-geod-deg", "target geocentric longitude [deg]", -180, 180
     )
     heading_check_time = Property("heading_check_time", "time to check whether current time reaches heading time", 0, 1000000)
+    altitude_check_time = Property("altitude_check_time", "time to check whether current time reaches altitude time", 0, 1000000)
 
 
 class MixedCatalog(dict):

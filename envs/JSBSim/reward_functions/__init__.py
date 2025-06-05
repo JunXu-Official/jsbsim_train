@@ -5,3 +5,5 @@ from .relative_altitude_reward import RelativeAltitudeReward
 from .heading_reward import HeadingReward
 from .missile_posture_reward import MissilePostureReward
 from .shoot_penalty_reward import ShootPenaltyReward
+from .altitude_reward_train import AltitudeRewardTrain
+from .altitude_penalty_reward import AltitudePenaltyReward
