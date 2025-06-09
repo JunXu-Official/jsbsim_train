@@ -33,7 +33,7 @@ class UnreachAltitude(BaseTerminationCondition):
         check_time = env.agents[agent_id].get_property_value(c.altitude_check_time)   #检查航向的时间点
         # check altitude when simulation_time exceed check_time
         if env.agents[agent_id].get_property_value(c.simulation_sim_time_sec) >= check_time:
-            if math.fabs(env.agents[agent_id].get_property_value(c.delta_altitude)) > 300:   #当前航向偏差超过10°，视为没达到目标   c---->catalog.py
+            if math.fabs(env.agents[agent_id].get_property_value(c.delta_altitude)) > 300:   #当前高度偏差超过300，视为没达到目标   c---->catalog.py
                 done = True
             # if current target altitude is reached, random generate a new target altitude
             else:
